@@ -41,6 +41,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	float DoorRotateAngle = 90.f;
 
+	UPROPERTY(EditAnywhere)
+	bool bNeedsKey = false;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	bool bHasKey = false;
 
