@@ -1,0 +1,61 @@
+IN EDITOR –
+-create door blueprint
+-create key blueprint
+-create timeline for door rotation
+
+
+
+
+// IN CHARACTER CPP - 
+// Handle interaction
+// Check if hit resault is door & if actor has key to handle door
+// Bool- has key
+
+#include "DoorActor.h"
+
+void AMyCharacter::Interact()
+{
+	FHitResult HitResult;
+	FVector Start = GetActorLocation();
+	FVector ForwardVector = GetActorForwardVector();
+	FVector End = ((ForwardVector * 200.f) + Start);
+	FCollisionQueryParams CollisionParams;
+
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams))
+	{
+		if (HitResult.Actor.IsValid())
+		{
+			ADoorActor* Door = Cast<ADoorActor>(HitResult.Actor.Get());
+			if (Door)
+			{
+				if (bHasKey)
+				{
+					Door->SetHasKey(true);
+				}
+				Door->HandleDoor();
+			}
+		}
+	}
+}
+
+void AMyCharacter::PickupKey()
+{
+	bHasKey = true;
+}
+
+
+
+
+
+
+//IN CHARACTER HEADER –
+
+void Interact();
+
+	UFUNCTION(BlueprintCallable, Category = "Key")
+	void PickupKey();
+
+private:
+	bool bHasKey = false;
+
+
